@@ -1,2 +1,5 @@
 at\itkolleg\sample\MainController.class
+at\itkolleg\sample\CryptoCurrency.class
+Exceptions\InsufficientBalanceException.class
 at\itkolleg\sample\Main.class
+at\itkolleg\sample\BankAccount.class

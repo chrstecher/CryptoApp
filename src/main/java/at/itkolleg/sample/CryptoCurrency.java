@@ -1,4 +1,4 @@
-package domain;
+package at.itkolleg.sample;
 
 import java.io.Serializable;
 import java.util.*;
