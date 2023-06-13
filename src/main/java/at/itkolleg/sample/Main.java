@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ResourceBundle;
 
+import Exceptions.InsufficientAmountException;
 import Exceptions.InsufficientBalanceException;
 import Exceptions.InvalidAmountException;
 import Exceptions.InvalidFeeException;
@@ -28,7 +29,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         System.out.println("Hallo Welt!");
         BankAccount ba = new BankAccount();
-        ba.deposit(new BigDecimal("10000"));
+        ba.deposit(new BigDecimal("1000"));
         System.out.println(ba);
 
         CryptoCurrency crypto = CryptoCurrency.BTC;
@@ -45,7 +46,7 @@ public class Main extends Application {
 
         Wallet wallet = null;
         try {
-            wallet = new Wallet("My BTC Wallet", CryptoCurrency.BTC, new BigDecimal("0.01"));
+            wallet = new Wallet("My BTC Wallet", CryptoCurrency.BTC, new BigDecimal("1"));
         } catch (InvalidFeeException e) {
             System.out.println(e.getMessage()); //Ausgabe der Nachricht der Exception
             e.printStackTrace(); //Ausgabe wie diese Exception zustande kam
@@ -53,15 +54,26 @@ public class Main extends Application {
         System.out.println(wallet);
 
         try {
-            wallet.buy(new BigDecimal("100"), new BigDecimal("10"), ba);
+            wallet.buy(new BigDecimal("10"), new BigDecimal("5"), ba);
         } catch (InvalidAmountException e) {
             e.printStackTrace();
         } catch (InsufficientBalanceException insufficientBalanceException) {
             insufficientBalanceException.printStackTrace();
         }
 
+        System.out.println(ba);
+        System.out.println(wallet);
+        try {
+            wallet.sell(new BigDecimal("10"), new BigDecimal("5"), ba);
+        } catch (InsufficientAmountException e) {
+            e.printStackTrace();
+        } catch (InvalidAmountException e) {
+            e.printStackTrace();
+        }
 
         System.out.println(ba);
+        System.out.println(wallet);
+
 
         launch(args);
     }
