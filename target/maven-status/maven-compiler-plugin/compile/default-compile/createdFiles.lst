@@ -1,3 +1,4 @@
+Exceptions\InvalidAmountException.class
 at\itkolleg\sample\Main.class
 at\itkolleg\sample\Wallet.class
 at\itkolleg\sample\Transaction.class
