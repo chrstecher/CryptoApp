@@ -43,6 +43,14 @@ public class Main extends Application {
         System.out.println(crypto.getCurrencyName());
         System.out.println(crypto.getCode());
         System.out.println(CryptoCurrency.valueOf("BTC").getCurrencyName());
+
+        Transaction transaction = new Transaction(CryptoCurrency.ETH,
+                new BigDecimal("1.23"),
+                new BigDecimal("1567.8")
+        );
+
+        System.out.println(transaction);
+
         launch(args);
     }
 }

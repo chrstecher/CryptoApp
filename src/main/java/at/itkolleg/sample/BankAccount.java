@@ -28,8 +28,8 @@ public class BankAccount implements Serializable {
     {
         if (amount != null)
         {
-            if (this.balance.subtract(amount).doubleValue() >= 0)
-            //if (this.balance.subtract(amount).compareTo(new BigDecimal("8")) >= 0)
+            //if (this.balance.subtract(amount).doubleValue() >= 0)
+            if (this.balance.subtract(amount).compareTo(new BigDecimal("0")) >= 0)
             {
                 this.balance = this.balance.subtract(amount).setScale(2, RoundingMode.HALF_UP);
             }

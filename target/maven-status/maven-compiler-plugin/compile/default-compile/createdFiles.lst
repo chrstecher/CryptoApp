@@ -3,3 +3,4 @@ at\itkolleg\sample\CryptoCurrency.class
 Exceptions\InsufficientBalanceException.class
 at\itkolleg\sample\Main.class
 at\itkolleg\sample\BankAccount.class
+at\itkolleg\sample\Transaction.class
