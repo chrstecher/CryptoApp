@@ -1,11 +1,12 @@
 package at.itkolleg.sample;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class Transaction {
+public class Transaction implements Serializable {
     private final UUID id; //Unique Identifier - relativ lange Zahl und die kann man
     // verwenden um automatisch UUIDs generieren zu lassen
     private final CryptoCurrency cryptoCurrency;
