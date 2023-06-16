@@ -74,6 +74,11 @@ public class Main extends Application {
         System.out.println(ba);
         System.out.println(wallet);
 
+        WalletList walletList = new WalletList();
+        walletList.addWallet(wallet);
+
+        System.out.println(walletList);
+
 
         launch(args);
     }
