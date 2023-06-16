@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ResourceBundle;
 
-import Exceptions.InsufficientAmountException;
-import Exceptions.InsufficientBalanceException;
-import Exceptions.InvalidAmountException;
-import Exceptions.InvalidFeeException;
+import Exceptions.*;
+import infrastruktur.CurrentCurrencyPrices;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -79,6 +77,13 @@ public class Main extends Application {
 
         System.out.println(walletList);
 
+        CurrentPriceForCurrency currentPrices = new CurrentCurrencyPrices();
+        try {
+            BigDecimal result = currentPrices.getCurrentPrice(CryptoCurrency.BTC);
+            System.out.println(result);
+        } catch (GetCurrentPriceException e) {
+            e.printStackTrace();
+        }
 
         launch(args);
     }
