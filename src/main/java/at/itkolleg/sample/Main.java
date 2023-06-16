@@ -102,6 +102,18 @@ public class Main extends Application {
             System.out.println(e.getMessage());
         }
 
+        try {
+            dataStore.saveWalletList(walletList);
+        } catch (SaveDataException e) {
+            e.printStackTrace();
+        }
+        try {
+            WalletList walletList2 = dataStore.retrieveWalletList();
+            System.out.println(walletList2);
+        } catch (RetrieveDataException e) {
+            e.printStackTrace();
+        }
+
         launch(args);
     }
 }
