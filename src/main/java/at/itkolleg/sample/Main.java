@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import Exceptions.*;
 import infrastruktur.CurrentCurrencyPrices;
+import infrastruktur.FileDataStore;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -83,6 +84,22 @@ public class Main extends Application {
             System.out.println(result);
         } catch (GetCurrentPriceException e) {
             e.printStackTrace();
+        }
+
+        DataStore dataStore = new FileDataStore();
+        try {
+            dataStore.saveBankAccount(ba);
+        } catch (SaveDataException e) {
+            //e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            BankAccount bankAccount2 = dataStore.retrieveBankAccount();
+            System.out.println(bankAccount2);
+        } catch (RetrieveDataException e) {
+            //e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         launch(args);

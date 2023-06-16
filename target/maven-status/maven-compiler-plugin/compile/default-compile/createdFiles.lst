@@ -1,3 +1,7 @@
+at\itkolleg\sample\DataStore.class
 infrastruktur\CurrentCurrencyPrices.class
 at\itkolleg\sample\CurrentPriceForCurrency.class
+Exceptions\RetrieveDataException.class
 Exceptions\GetCurrentPriceException.class
+Exceptions\SaveDataException.class
+infrastruktur\FileDataStore.class
