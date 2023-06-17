@@ -47,11 +47,57 @@ public class WalletApp extends Application {
         alert.showAndWait(); //Benutzer muss den Dialog wegklicken um weiterzumachen -> Programmausführung bleibt stehen.
     }
 
+    //File-Handling-Parts
+
+    private BankAccount loadBankAccountFromFile() throws RetrieveDataException {
+        DataStore dataStore = new FileDataStore();
+        BankAccount bankAccount = dataStore.retrieveBankAccount();
+        System.out.println("Bankaccount loaded!");
+        return bankAccount;
+    }
+
+    private WalletList loadWalletListFromFile() throws RetrieveDataException {
+        DataStore dataStore = new FileDataStore();
+        WalletList walletList = dataStore.retrieveWalletList();
+        System.out.println("WalletList loaded!");
+        return walletList;
+    }
+
+    private void storeBankAccountToFile(BankAccount bankAccount) throws SaveDataException
+    {
+        DataStore dataStore = new FileDataStore();
+        dataStore.saveBankAccount(bankAccount);
+    }
+
+    private void storeWalletListToFile(WalletList walletList) throws SaveDataException
+    {
+        DataStore dataStore = new FileDataStore();
+        dataStore.saveWalletList(walletList);
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
 
         mainStage = stage;
-        WalletApp.switchScene("main2.fxml", "at.itkolleg.sample.main");
+
+        BankAccount bankAccount = new BankAccount();
+        WalletList walletList = new WalletList();
+
+        try {
+            bankAccount = loadBankAccountFromFile();
+        } catch (RetrieveDataException e) {
+            WalletApp.showErrorDialog("Error on loading BankAccount data. Using new empty account!");
+            e.printStackTrace();
+        }
+
+        try {
+            walletList = loadWalletListFromFile();
+        } catch (RetrieveDataException e) {
+            WalletApp.showErrorDialog("Error on loading WalletList data. Using new empty WalletList!");
+            e.printStackTrace();
+        }
+        System.out.println("TESTBA: " + bankAccount);
+        WalletApp.switchScene("main.fxml", "at.itkolleg.sample.main");
     }
 
     public static void main(String[] args) {
