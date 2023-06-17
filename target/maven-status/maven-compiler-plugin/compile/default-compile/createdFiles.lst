@@ -1,4 +1,5 @@
 domain\Wallet.class
+ui\BaseControllerState.class
 ui\GlobalContext.class
 ui\MainController.class
 at\itkolleg\sample\WalletApp.class
