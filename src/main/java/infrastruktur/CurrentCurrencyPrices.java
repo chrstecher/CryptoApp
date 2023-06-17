@@ -1,8 +1,8 @@
 package infrastruktur;
 
 import Exceptions.GetCurrentPriceException;
-import at.itkolleg.sample.CryptoCurrency;
-import at.itkolleg.sample.CurrentPriceForCurrency;
+import domain.CryptoCurrency;
+import domain.CurrentPriceForCurrency;
 
 import java.io.IOException;
 import java.math.BigDecimal;

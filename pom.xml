@@ -17,7 +17,7 @@
         <javafx.version>17.0.6</javafx.version>
         <javafx.plugin.version>0.0.8</javafx.plugin.version>
         <gluonfx.plugin.version>1.0.18</gluonfx.plugin.version>
-        <main.class>at.itkolleg.sample.Main</main.class>
+        <main.class>at.itkolleg.sample.WalletApp</main.class>
     </properties>
 
     <dependencies>

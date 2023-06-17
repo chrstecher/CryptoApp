@@ -2,9 +2,9 @@ package infrastruktur;
 
 import Exceptions.RetrieveDataException;
 import Exceptions.SaveDataException;
-import at.itkolleg.sample.BankAccount;
-import at.itkolleg.sample.DataStore;
-import at.itkolleg.sample.WalletList;
+import domain.BankAccount;
+import domain.DataStore;
+import domain.WalletList;
 
 import java.io.*;
 

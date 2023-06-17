@@ -1,4 +1,4 @@
-package at.itkolleg.sample;
+package domain;
 
 import Exceptions.RetrieveDataException;
 import Exceptions.SaveDataException;

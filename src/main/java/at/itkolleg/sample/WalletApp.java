@@ -5,24 +5,53 @@ import java.math.BigDecimal;
 import java.util.ResourceBundle;
 
 import Exceptions.*;
+import domain.*;
 import infrastruktur.CurrentCurrencyPrices;
 import infrastruktur.FileDataStore;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class WalletApp extends Application {
+
+    //UI Parts
+    private static Stage mainStage;
+
+    public static void switchScene(String fxmlFile, String resourceBundle) {
+        try {
+            Parent root = FXMLLoader.load(WalletApp.class.getResource(fxmlFile), ResourceBundle.getBundle(resourceBundle));
+            Scene scene = new Scene(root);
+            mainStage.setScene(scene); //Man bekommt diese MainStage über die start Methode
+            mainStage.show();
+        } /*catch (NullPointerException nullPointerException)
+        {
+            WalletApp.showErrorDialog("Could not load new scene!");
+            nullPointerException.printStackTrace();
+        }*/
+        catch (Exception ioException) {
+            WalletApp.showErrorDialog("Could not load new scene!");
+            ioException.printStackTrace();
+        }
+    }
+    {
+
+    }
+
+    public static void showErrorDialog(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("An exception occured: " + message);
+        alert.showAndWait(); //Benutzer muss den Dialog wegklicken um weiterzumachen -> Programmausführung bleibt stehen.
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
-        AnchorPane root = FXMLLoader.load(Main.class.getResource("main.fxml"),
-                ResourceBundle.getBundle("at.itkolleg.sample.main"));
 
-        Scene scene = new Scene(root, 640, 480);
-        stage.setScene(scene);
-        stage.show();
+        mainStage = stage;
+        WalletApp.switchScene("main2.fxml", "at.itkolleg.sample.main");
     }
 
     public static void main(String[] args) {

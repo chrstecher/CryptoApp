@@ -1,7 +1,13 @@
-at\itkolleg\sample\DataStore.class
+domain\Transaction.class
+domain\Wallet.class
 infrastruktur\CurrentCurrencyPrices.class
-at\itkolleg\sample\CurrentPriceForCurrency.class
+domain\CryptoCurrency.class
 Exceptions\RetrieveDataException.class
 Exceptions\GetCurrentPriceException.class
+domain\BankAccount.class
+at\itkolleg\sample\WalletApp.class
+domain\WalletList.class
+domain\DataStore.class
 Exceptions\SaveDataException.class
 infrastruktur\FileDataStore.class
+domain\CurrentPriceForCurrency.class
