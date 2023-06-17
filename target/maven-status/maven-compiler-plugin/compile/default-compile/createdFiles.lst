@@ -3,6 +3,7 @@ domain\Wallet.class
 infrastruktur\CurrentCurrencyPrices.class
 domain\CryptoCurrency.class
 Exceptions\RetrieveDataException.class
+ui\MainController.class
 Exceptions\GetCurrentPriceException.class
 domain\BankAccount.class
 at\itkolleg\sample\WalletApp.class

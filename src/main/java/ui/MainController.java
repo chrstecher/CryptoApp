@@ -1,4 +1,4 @@
-package at.itkolleg.sample;
+package ui;
 
 import java.text.MessageFormat;
 import java.util.Random;

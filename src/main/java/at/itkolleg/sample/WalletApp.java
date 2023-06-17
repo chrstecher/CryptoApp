@@ -15,11 +15,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import ui.GlobalContext;
 
 public class WalletApp extends Application {
 
     //UI Parts
     private static Stage mainStage;
+    public static final String GLOBAL_WALLET_LIST = "walletlist";
+    public static final String GLOBAL_BANK_ACCOUNT = "bankaccount";
+    public static final String GLOBAL_CURRENT_CURRENCY_PRICES = "currencyprices";
 
     public static void switchScene(String fxmlFile, String resourceBundle) {
         try {
@@ -96,8 +100,39 @@ public class WalletApp extends Application {
             WalletApp.showErrorDialog("Error on loading WalletList data. Using new empty WalletList!");
             e.printStackTrace();
         }
-        System.out.println("TESTBA: " + bankAccount);
+
+        //Fill GlobalContext
+        GlobalContext.getGlobalContext().putStateFor(WalletApp.GLOBAL_WALLET_LIST, walletList); //gibt den aktuellen globalContext zurück oder erstellt einen neuen globalContext
+        //wenn noch Keiner gesetzt wurde.
+        //GlobalerContext = Globaler Speicher
+        GlobalContext.getGlobalContext().putStateFor(WalletApp.GLOBAL_BANK_ACCOUNT, bankAccount);
+        GlobalContext.getGlobalContext().putStateFor(WalletApp.GLOBAL_CURRENT_CURRENCY_PRICES, new CurrentCurrencyPrices()); //nimm bei Währungsumrechnungen das CurrentCurrencyPrices Objekt, welches bereitgestellt wurde.
+
+
         WalletApp.switchScene("main.fxml", "at.itkolleg.sample.main");
+    }
+
+    @Override
+    public void stop()
+    {
+        WalletList walletList = (WalletList)GlobalContext.getGlobalContext().getStateFor(WalletApp.GLOBAL_WALLET_LIST);
+        BankAccount bankAccount = (BankAccount) GlobalContext.getGlobalContext().getStateFor(WalletApp.GLOBAL_BANK_ACCOUNT);
+
+        try {
+            storeBankAccountToFile(bankAccount);
+            System.out.println("BankAccount details stored to file!");
+        } catch (SaveDataException e) {
+            WalletApp.showErrorDialog("Could not store bankaccount details!");
+            e.printStackTrace();
+        }
+
+        try {
+            storeWalletListToFile(walletList);
+            System.out.println("WalletList stored to file!");
+        } catch (SaveDataException e) {
+            WalletApp.showErrorDialog("Could not store wallet details!");
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

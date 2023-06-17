@@ -69,7 +69,7 @@
                         <list>at.itkolleg.sample.main</list>
                     </bundlesList>
                     <reflectionList>
-                        <list>at.itkolleg.sample.MainController</list>
+                        <list>ui.MainController</list>
                     </reflectionList>
                 </configuration>
             </plugin>
