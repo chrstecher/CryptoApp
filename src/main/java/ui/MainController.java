@@ -8,10 +8,13 @@ import java.util.ResourceBundle;
 
 import Exceptions.InsufficientAmountException;
 import Exceptions.InsufficientBalanceException;
+import Exceptions.InvalidFeeException;
 import at.itkolleg.sample.WalletApp;
+import domain.CryptoCurrency;
 import domain.Wallet;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 
 public class MainController extends BaseControllerState {
@@ -30,7 +33,41 @@ public class MainController extends BaseControllerState {
 
     public void initialize() {
 
+        this.cmbWalletCurrency.getItems().addAll(CryptoCurrency.getCodes());
         this.lblBankaccountBalance.textProperty().setValue(getBankAccount().getBalance().toString());
+
+        //Spaltendefinition
+        TableColumn<Wallet, String> symbol = new TableColumn<>("SYMBOL");
+        //Festlegung des Wertes
+        symbol.setCellValueFactory(new PropertyValueFactory<>("cryptoCurrency"));
+        //Holt den Wert aus der Getter-Methode (Aufruf der get-Methode)
+
+        //Spaltendefinition
+        TableColumn<Wallet, String> currencyName = new TableColumn<>("CURRENCY NAME");
+        //Festlegung des Wertes
+        symbol.setCellValueFactory(new PropertyValueFactory<>("currencyName"));
+        //Holt den Wert aus der Getter-Methode (Aufruf der get-Methode)
+
+        //Spaltendefinition
+        TableColumn<Wallet, String> name = new TableColumn<>("WALLET NAME");
+        //Festlegung des Wertes
+        symbol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        //Holt den Wert aus der Getter-Methode (Aufruf der get-Methode)
+
+        //Spaltendefinition
+        TableColumn<Wallet, String> amount = new TableColumn<>("AMOUNT");
+        //Festlegung des Wertes
+        symbol.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        //Holt den Wert aus der Getter-Methode (Aufruf der get-Methode)
+
+        tableView.getColumns().clear(); //Löschen aller Spalten
+        tableView.getColumns().add(name);
+        tableView.getColumns().add(symbol);
+        tableView.getColumns().add(currencyName);
+        tableView.getColumns().add(amount);
+
+        tableView.getItems().setAll(getWalletList().getWalletsAsObservableList());
+
     }
 
     public void deposit()
@@ -81,8 +118,16 @@ public class MainController extends BaseControllerState {
         System.out.println("OPEN WALLET");
     }
 
-    public void newWallet()
-    {
-        System.out.println("NEW WALLET");
+    public void newWallet() throws InvalidFeeException {
+        Object selectedItem = this.cmbWalletCurrency.getSelectionModel().getSelectedItem();
+        if (selectedItem == null)
+        {
+            WalletApp.showErrorDialog("Choose currency!");
+            return;
+        }
+        CryptoCurrency selectedCryptoCurrency = CryptoCurrency.valueOf(this.cmbWalletCurrency.getSelectionModel().getSelectedItem().toString());
+        //String wird aus der Combobox geholt und von CryptoCurrency (Enum) mit valueOf auf Basis dieses Strings die Cryptocurrency generieren.
+        this.getWalletList().addWallet(new Wallet("My " + selectedCryptoCurrency.currencyName + " Wallet", selectedCryptoCurrency, new BigDecimal("1")));
+        tableView.getItems().setAll(this.getWalletList().getWalletsAsObservableList());
     }
 }
