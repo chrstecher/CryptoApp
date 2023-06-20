@@ -1,6 +1,8 @@
 package ui;
 
+import Exceptions.GetCurrentPriceException;
 import at.itkolleg.sample.WalletApp;
+import domain.CurrentPriceForCurrency;
 import domain.Transaction;
 import domain.Wallet;
 import javafx.event.ActionEvent;
@@ -8,6 +10,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class WalletController {
     @FXML
@@ -25,7 +30,8 @@ public class WalletController {
     {
         this.wallet = (Wallet) GlobalContext.getGlobalContext().getStateFor(WalletApp.GLOBAL_SELECTED_WALLET);
 
-        this.lblName.textProperty().setValue(this.wallet.getName());
+        refreshAllGuiValues();
+
         btnBackToMain.setOnAction((ActionEvent e) ->
         {
             WalletApp.switchScene("main.fxml", "at.itkolleg.sample.main");
@@ -34,6 +40,31 @@ public class WalletController {
     public void buy()
     {
         System.out.println("KAUFEN");
+    }
+
+    private CurrentPriceForCurrency getCurrentPriceStrategy()
+    {
+        return (CurrentPriceForCurrency) GlobalContext.getGlobalContext().getStateFor(WalletApp.GLOBAL_CURRENT_CURRENCY_PRICES);
+    }
+
+    public void refreshAllGuiValues()
+    {
+        this.lblId.textProperty().setValue(this.wallet.getId().toString());
+        this.lblName.textProperty().setValue(this.wallet.getName());
+        this.lblCurrency.textProperty().setValue(this.wallet.getCryptoCurrency().getCode());
+        this.lblAmount.textProperty().setValue(this.wallet.getAmount().toString());
+        this.lblFee.textProperty().setValue(this.wallet.getFeeInPercent().toString());
+
+
+        try {
+            BigDecimal currentPrice = this.getCurrentPriceStrategy().getCurrentPrice(wallet.getCryptoCurrency());
+            BigDecimal currentValue = currentPrice.multiply(wallet.getAmount()).setScale(6, RoundingMode.HALF_UP);
+            this.lblValue.textProperty().setValue(currentValue.toString());
+        } catch (GetCurrentPriceException e) {
+            WalletApp.showErrorDialog(e.getMessage());
+            this.lblValue.textProperty().setValue("CURRENT PRICES UNAVAILABLE!");
+            e.printStackTrace();
+        }
     }
 
     public void sell()
