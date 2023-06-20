@@ -1,11 +1,10 @@
 package at.itkolleg.sample;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ResourceBundle;
-
-import Exceptions.*;
-import domain.*;
+import Exceptions.RetrieveDataException;
+import Exceptions.SaveDataException;
+import domain.BankAccount;
+import domain.DataStore;
+import domain.WalletList;
 import infrastruktur.CurrentCurrencyPrices;
 import infrastruktur.FileDataStore;
 import javafx.application.Application;
@@ -13,9 +12,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import ui.GlobalContext;
+
+import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class WalletApp extends Application {
 
