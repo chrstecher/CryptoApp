@@ -110,7 +110,7 @@ public class MainController extends BaseControllerState {
 
     public void openWallet()
     {
-        System.out.println("OPEN WALLET");
+        WalletApp.switchScene("wallet.fxml", "at.itkolleg.sample.wallet");
     }
 
     public void newWallet() throws InvalidFeeException {
