@@ -25,6 +25,7 @@ public class WalletApp extends Application {
     public static final String GLOBAL_WALLET_LIST = "walletlist";
     public static final String GLOBAL_BANK_ACCOUNT = "bankaccount";
     public static final String GLOBAL_CURRENT_CURRENCY_PRICES = "currencyprices";
+    public static String GLOBAL_SELECTED_WALLET = "selectedWallet";
 
     public static void switchScene(String fxmlFile, String resourceBundle) {
         try {
