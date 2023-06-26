@@ -1,22 +1,23 @@
 package ui;
 
 import Exceptions.GetCurrentPriceException;
+import Exceptions.InsufficientAmountException;
+import Exceptions.InsufficientBalanceException;
+import Exceptions.InvalidAmountException;
 import at.itkolleg.sample.WalletApp;
 import domain.CurrentPriceForCurrency;
 import domain.Transaction;
 import domain.Wallet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Optional;
 
-public class WalletController {
+public class WalletController extends BaseControllerState {
     @FXML
     private Button btnBackToMain;
     @FXML
@@ -28,8 +29,7 @@ public class WalletController {
     private Wallet wallet;
 
 
-    public void initialize()
-    {
+    public void initialize() {
         this.wallet = (Wallet) GlobalContext.getGlobalContext().getStateFor(WalletApp.GLOBAL_SELECTED_WALLET);
 
         populateTable();
@@ -41,8 +41,7 @@ public class WalletController {
         });
     }
 
-    private void populateTable()
-    {
+    private void populateTable() {
         TableColumn<Transaction, String> id = new TableColumn<>("ID");
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
 
@@ -69,18 +68,34 @@ public class WalletController {
         tblTransactions.getColumns().add(priceAtTransactionDate);
         tblTransactions.getColumns().add(date);
     }
-    public void buy()
-    {
-        System.out.println("KAUFEN");
+
+    public void buy() {
+        TextInputDialog dialog = new TextInputDialog("Amount of crypto to buy ...");
+        dialog.setTitle("Buy crypto");
+        dialog.setHeaderText("How much crypto do you want to buy?");
+        dialog.setContentText("Amount: ");
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isPresent()) {
+            try {
+                BigDecimal amount = new BigDecimal(result.get());
+                this.wallet.buy(amount, this.getCurrentPriceStrategy().getCurrentPrice(wallet.getCryptoCurrency()), this.getBankAccount());
+                this.refreshAllGuiValues();
+            } catch (NumberFormatException numberFormatException) {
+                WalletApp.showErrorDialog("Invalid amount. Insert a number!");
+            } catch (InsufficientBalanceException | InvalidAmountException | GetCurrentPriceException exception) {
+                WalletApp.showErrorDialog(exception.getMessage());
+                exception.printStackTrace();
+            }
+
+        }
     }
 
-    private CurrentPriceForCurrency getCurrentPriceStrategy()
-    {
+    private CurrentPriceForCurrency getCurrentPriceStrategy() {
         return (CurrentPriceForCurrency) GlobalContext.getGlobalContext().getStateFor(WalletApp.GLOBAL_CURRENT_CURRENCY_PRICES);
     }
 
-    private void refreshAllGuiValues()
-    {
+    private void refreshAllGuiValues() {
         this.lblId.textProperty().setValue(this.wallet.getId().toString());
         this.lblName.textProperty().setValue(this.wallet.getName());
         this.lblCurrency.textProperty().setValue(this.wallet.getCryptoCurrency().getCode());
@@ -101,8 +116,24 @@ public class WalletController {
         tblTransactions.getItems().setAll(wallet.getTransactions());
     }
 
-    public void sell()
-    {
-        System.out.println("VERKAUFEN");
+    public void sell() {
+        TextInputDialog dialog = new TextInputDialog("Amount of crypto to sell ...");
+        dialog.setTitle("Sell crypto");
+        dialog.setHeaderText("How much crypto do you want to sell?");
+        dialog.setContentText("Amount: ");
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isPresent()) {
+            try {
+                BigDecimal amount = new BigDecimal(result.get());
+                this.wallet.sell(amount, this.getCurrentPriceStrategy().getCurrentPrice(wallet.getCryptoCurrency()), this.getBankAccount());
+                this.refreshAllGuiValues();
+            } catch (NumberFormatException numberFormatException) {
+                WalletApp.showErrorDialog("Invalid amount. Insert a number!");
+            } catch (InsufficientAmountException | InvalidAmountException | GetCurrentPriceException exception) {
+                WalletApp.showErrorDialog(exception.getMessage());
+                exception.printStackTrace();
+            }
+        }
     }
 }

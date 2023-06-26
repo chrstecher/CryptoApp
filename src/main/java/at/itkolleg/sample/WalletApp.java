@@ -110,6 +110,8 @@ public class WalletApp extends Application {
         GlobalContext.getGlobalContext().putStateFor(WalletApp.GLOBAL_BANK_ACCOUNT, bankAccount);
         GlobalContext.getGlobalContext().putStateFor(WalletApp.GLOBAL_CURRENT_CURRENCY_PRICES, new CurrentCurrencyPrices()); //nimm bei Währungsumrechnungen das CurrentCurrencyPrices Objekt, welches bereitgestellt wurde.
 
+        mainStage.setOnCloseRequest(event -> event.consume());
+
 
         WalletApp.switchScene("main.fxml", "at.itkolleg.sample.main");
     }

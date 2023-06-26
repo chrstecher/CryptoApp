@@ -5,6 +5,8 @@ import Exceptions.InvalidFeeException;
 import at.itkolleg.sample.WalletApp;
 import domain.CryptoCurrency;
 import domain.Wallet;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -62,6 +64,11 @@ public class MainController extends BaseControllerState {
         tableView.getColumns().add(amount);
 
         tableView.getItems().setAll(getWalletList().getWalletsAsObservableList());
+
+        this.btnClose.setOnAction((ActionEvent event) ->
+        {
+            Platform.exit();
+        });
 
     }
 
